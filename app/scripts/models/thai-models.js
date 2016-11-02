@@ -5,11 +5,12 @@ var MenuItem = Backbone.Model.extend({
 });
 
 var MenuItemCollection = Backbone.Collection.extend({
-  model: MenuItem,
-  url: ''
+  model: MenuItem
+  // url: ''
 });
 
 
 module.exports = {
-
+  MenuItem: MenuItem,
+  MenuItemCollection: MenuItemCollection
 };
