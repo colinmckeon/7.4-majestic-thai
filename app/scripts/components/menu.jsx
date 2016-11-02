@@ -11,14 +11,14 @@ var Menu = React.createClass({
     render: function(){
       var self = this;
 
-      var menuHtml = this.props.menuList.map(function(item){
+      var menuHtml = this.props.menuList.map(function(item, index){
         return (
-          <div className="menu-item well" key={item.id}>
+          <div className="menu-item well" key={item.id + index}>
             <h4>{item.title}</h4>
             <section>
               {item.description}
             </section>
-            <h5>{item.price}</h5>
+            <h5>{item.price.toFixed(2)}</h5>
             <button onClick={function(){self.handleClick(item)}} className="btn btn-success" type="submit">Add Item</button>
           </div>
         )
@@ -28,7 +28,6 @@ var Menu = React.createClass({
             <div className="menu">
                 <h2>Menu</h2>
                 {menuHtml}
-
             </div>
           </div>
         )
@@ -37,22 +36,31 @@ var Menu = React.createClass({
 
 var Order = React.createClass({
     render: function(){
-      console.log(this.props.orderList);
-      var orderHtml = this.props.orderList.map(function(item){
+      var orderHtml = this.props.orderList.map(function(item, index){
         return(
-
-            <h6>Item(s):</h6>
-            <h6>Price:</h6>
-
+          <div key={item.id + index}>
+            <h6>Item: {item.title}</h6>
+            <h6>Price: {item.price.toFixed(2)}</h6>
+            <hr/>
+          </div>
         )
       });
+      var priceArray =  this.props.orderList.map(function(value){
+        return value.price;
+      });
+
+      var totalOrderPrice = priceArray.reduce(function(num1, num2){
+        return num1 + num2;
+
+      },0);
+      console.log(totalOrderPrice);
         return(
           <div className="col-md-3">
             <div className="order">
               <h2>Your Order</h2>
                 <div className="order-holder">
                   {orderHtml}
-                  <h6>Total:</h6>
+                  <h6>Total: {totalOrderPrice}</h6>
                 </div>
             </div>
           </div>
@@ -73,7 +81,6 @@ var AppContainer = React.createClass({
       this.setState({order: this.state.order});
     },
     render: function(){
-      console.log(this.state.order);
       return(
         <div>
           <Menu menuList={this.state.menu} addToCart={this.addToCart} />
