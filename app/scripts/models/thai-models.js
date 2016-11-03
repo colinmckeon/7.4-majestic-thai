@@ -5,8 +5,8 @@ var MenuItem = Backbone.Model.extend({
 });
 
 var MenuItemCollection = Backbone.Collection.extend({
-  model: MenuItem
-  // url: ''
+  model: MenuItem,
+  url: 'http://tiny-lasagna-server.herokuapp.com/collections/colinorder'
 });
 
 

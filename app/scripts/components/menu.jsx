@@ -2,6 +2,7 @@ var React = require('react');
 var Backbone = require('backbone');
 
 var menuItems = require('../menu-items/data.js').menuItems;
+var MenuItemCollection = require('../models/thai-models.js').MenuItemCollection;
 
 
 var Menu = React.createClass({
@@ -35,6 +36,15 @@ var Menu = React.createClass({
 });
 
 var Order = React.createClass({
+  getInitialState: function(){
+    return{
+      collection: new MenuItemCollection()
+      }
+    },
+    handleSubmit: function(e){
+      e.preventDefault();
+        this.state.collection.create(this.props.orderList);
+    },
     render: function(){
       var orderHtml = this.props.orderList.map(function(item, index){
         return(
@@ -51,8 +61,8 @@ var Order = React.createClass({
 
       var totalOrderPrice = priceArray.reduce(function(num1, num2){
         return num1 + num2;
-
       },0);
+
       console.log(totalOrderPrice);
         return(
           <div className="col-md-3">
@@ -60,7 +70,8 @@ var Order = React.createClass({
               <h2>Your Order</h2>
                 <div className="order-holder">
                   {orderHtml}
-                  <h6>Total: {totalOrderPrice}</h6>
+                  <h6>Order Total: {totalOrderPrice.toFixed(2)}</h6>
+                  <button onClick={this.handleSubmit} className="btn btn-success" type="submit">Place Order</button>
                 </div>
             </div>
           </div>
